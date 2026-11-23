@@ -1,20 +1,15 @@
-#ifndef NOISE_H
-#define NOISE_H
+#ifndef PERLIN_H
+#define PERLIN_H
 
 #include <vector>
+#include "consts.h"
 
 using namespace std;
 
-struct vec3 {
-    double x;
-    double y;
-    double z;
-};
-
 // https://mrl.cs.nyu.edu/~perlin/noise/
-class Noise {
+class Perlin {
     public:
-        Noise(int N);
+        Perlin(int N);
         double noise(double x, double y, double z);
         double fade(double t);
         double lerp(double t, double a, double b);

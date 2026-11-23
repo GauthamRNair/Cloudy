@@ -1,9 +1,9 @@
-#include "noise.h"
+#include "perlin.h"
 #include <cmath>
 
 using namespace std;
 
-Noise::Noise(int N) {
+Perlin::Perlin(int N) {
     gradients.resize(N * N * N);
     this->N = N;
 
@@ -24,7 +24,7 @@ Noise::Noise(int N) {
     }
 }
 
-double Noise::noise(double x, double y, double z) {
+double Perlin::noise(double x, double y, double z) {
     int X = floor(x);
     int Y = floor(y);
     int Z = floor(z);
@@ -56,15 +56,15 @@ double Noise::noise(double x, double y, double z) {
                                    dotGradient(X+1, Y+1, Z+1, x-1, y-1, z-1))));
 }
 
-double Noise::fade(double t) {
+double Perlin::fade(double t) {
     return t * t * t * (t * (t * 6 - 15) + 10); // Borrowed from the official improved perlin implementation
 }
 
-double Noise::lerp(double t, double a, double b) {
+double Perlin::lerp(double t, double a, double b) {
     return a + t * (b - a); // linear interpolation FROM a TO b
 }
 
-double Noise::dotGradient(int X, int Y, int Z, double x, double y, double z) {
+double Perlin::dotGradient(int X, int Y, int Z, double x, double y, double z) {
     // Just in case the +1 goes over so it loops over to the other side
     X = X % N;
     Y = Y % N;

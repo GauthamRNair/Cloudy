@@ -2,7 +2,8 @@
 #include "stb_image_write.h"
 
 #include "consts.h"
-#include "noise.h"
+#include "perlin.h"
+#include "worley.h"
 
 #include <iostream>
 #include <vector>
@@ -16,23 +17,21 @@ char floatToByte(double color);
 int main() {
     srand(0);
 
-    vector<char> img(IMAGE_WIDTH * IMAGE_HEIGHT * 3); // 3 chars for each pixel cus 1 char = 1 byte = 1 color channel
-    Noise n(16);
+    vector<char> img(IMAGE_WIDTH * IMAGE_HEIGHT); // 3 chars for each pixel cus 1 char = 1 byte = 1 color channel
+    Worley n(16);
 
     for(int y = 0; y < IMAGE_HEIGHT; y++) {
         for(int x = 0; x < IMAGE_WIDTH; x++) {
-            int index = ((y * IMAGE_WIDTH) + x) * 3;
+            int index = ((y * IMAGE_WIDTH) + x);
             // img.at(index + 0) = (255 * x) / IMAGE_WIDTH; // red
             // img.at(index + 1) = (255 * y) / IMAGE_HEIGHT; // green
             // img.at(index + 2) = (255 * x) / IMAGE_WIDTH; // blue
-            img.at(index + 0) = floatToByte(0.5 * (1.0 + n.noise((16.0 * x) / IMAGE_WIDTH, (16.0 * y) / IMAGE_HEIGHT, 0))); // red
-            img.at(index + 1) = floatToByte(0.5 * (1.0 + n.noise((16.0 * x) / IMAGE_WIDTH, (16.0 * y) / IMAGE_HEIGHT, 1))); // red
-            img.at(index + 2) = floatToByte(0.5 * (1.0 + n.noise((16.0 * x) / IMAGE_WIDTH, (16.0 * y) / IMAGE_HEIGHT, 2))); // red
+            img.at(index + 0) = (char)((127.5 * (1.0 - n.noise((16.0 * x) / IMAGE_WIDTH, (16.0 * y) / IMAGE_HEIGHT, 0))));
 
         }
     }
 
-    stbi_write_png("test.png", IMAGE_WIDTH, IMAGE_HEIGHT, 3, img.data(), IMAGE_WIDTH * 3);
+    stbi_write_png("out.png", IMAGE_WIDTH, IMAGE_HEIGHT, 1, img.data(), IMAGE_WIDTH);
 
     return 0;
 }
