@@ -3,12 +3,14 @@
 
 #include <vector>
 #include "consts.h"
+#include "utils.h"
 
 using namespace std;
 
 // https://mrl.cs.nyu.edu/~perlin/noise/
 class Perlin {
     public:
+        Perlin();
         Perlin(int N);
         double noise(double x, double y, double z);
         double fade(double t);

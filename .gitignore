@@ -1,4 +1,3 @@
 stb_image_write.h
-perlin.o
-worley.o
-out.png
+*.o
+out*.png

@@ -1,7 +1,30 @@
 #include "perlin.h"
+#include "utils.h"
 #include <cmath>
 
 using namespace std;
+
+Perlin::Perlin() {
+    N = 8; // Arbitrary base N
+
+    gradients.resize(N * N * N);
+
+    for(int x = 0; x < N; x++) {
+        for(int y = 0; y < N; y++) {
+            for(int z = 0; z < N; z++) {
+                double randomValX = static_cast<double>(rand()) / RAND_MAX; // 0.0 to 1.0
+                double randomValY = static_cast<double>(rand()) / RAND_MAX;
+                double randomValZ = static_cast<double>(rand()) / RAND_MAX;
+
+                randomValX = (randomValX * 2.0) - 1.0; // -1.0 to 1.0
+                randomValY = (randomValY * 2.0) - 1.0;
+                randomValZ = (randomValZ * 2.0) - 1.0;
+
+                gradients.at(((x * N * N) + (y * N) + z)) = vec3{randomValX, randomValY, randomValZ};
+            }
+        }
+    }
+}
 
 Perlin::Perlin(int N) {
     gradients.resize(N * N * N);

@@ -1,7 +1,26 @@
 #include "worley.h"
+#include "utils.h"
 #include <cmath>
 
 using namespace std;
+
+Worley::Worley() {
+    N = 8; // Arbitrary base N
+
+    points.resize(N * N * N);
+
+    for(int x = 0; x < N; x++) {
+        for(int y = 0; y < N; y++) {
+            for(int z = 0; z < N; z++) {
+                double randomValX = static_cast<double>(rand()) / RAND_MAX; // 0.0 to 1.0
+                double randomValY = static_cast<double>(rand()) / RAND_MAX;
+                double randomValZ = static_cast<double>(rand()) / RAND_MAX;
+
+                points.at(((x * N * N) + (y * N) + z)) = vec3{randomValX, randomValY, randomValZ};
+            }
+        }
+    }
+}
 
 Worley::Worley(int N) {
     points.resize(N * N * N);

@@ -3,11 +3,13 @@
 
 #include <vector>
 #include "consts.h"
+#include "utils.h"
 
 using namespace std;
 
 class Worley {
     public:
+        Worley();
         Worley(int N);
         double noise(double x, double y, double z);
     private:
