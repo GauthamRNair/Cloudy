@@ -15,7 +15,7 @@ class PerlinWorley {
         double noise(double x, double y, double z);
     private:
         int N;
-        Worley w1, w2, w3;
+        LayeredWorley lw;
         Perlin p1, p2, p3, p4, p5, p6, p7;
 };
 

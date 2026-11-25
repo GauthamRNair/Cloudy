@@ -4,31 +4,33 @@
 
 using namespace std;
 
-Perlin::Perlin() {
-    N = 8; // Arbitrary base N
+Perlin::Perlin() : Perlin(8) {
+    // N = 8; // Arbitrary base N
 
-    gradients.resize(N * N * N);
+    // gradients.resize(N * N * N);
 
-    for(int x = 0; x < N; x++) {
-        for(int y = 0; y < N; y++) {
-            for(int z = 0; z < N; z++) {
-                double randomValX = static_cast<double>(rand()) / RAND_MAX; // 0.0 to 1.0
-                double randomValY = static_cast<double>(rand()) / RAND_MAX;
-                double randomValZ = static_cast<double>(rand()) / RAND_MAX;
+    // for(int x = 0; x < N; x++) {
+    //     for(int y = 0; y < N; y++) {
+    //         for(int z = 0; z < N; z++) {
+    //             double randomValX = static_cast<double>(rand()) / RAND_MAX; // 0.0 to 1.0
+    //             double randomValY = static_cast<double>(rand()) / RAND_MAX;
+    //             double randomValZ = static_cast<double>(rand()) / RAND_MAX;
 
-                randomValX = (randomValX * 2.0) - 1.0; // -1.0 to 1.0
-                randomValY = (randomValY * 2.0) - 1.0;
-                randomValZ = (randomValZ * 2.0) - 1.0;
+    //             randomValX = (randomValX * 2.0) - 1.0; // -1.0 to 1.0
+    //             randomValY = (randomValY * 2.0) - 1.0;
+    //             randomValZ = (randomValZ * 2.0) - 1.0;
 
-                gradients.at(((x * N * N) + (y * N) + z)) = vec3{randomValX, randomValY, randomValZ};
-            }
-        }
-    }
+    //             gradients.at(((x * N * N) + (y * N) + z)) = vec3{randomValX, randomValY, randomValZ};
+    //         }
+    //     }
+    // }
 }
 
 Perlin::Perlin(int N) {
-    gradients.resize(N * N * N);
+    if (N > 64) N = 64; // Clamp for memory sake (it tiles anyway so it sacrifices randomness for memory)
     this->N = N;
+
+    gradients.resize(N * N * N);
 
     for(int x = 0; x < N; x++) {
         for(int y = 0; y < N; y++) {
@@ -89,9 +91,9 @@ double Perlin::lerp(double t, double a, double b) {
 
 double Perlin::dotGradient(int X, int Y, int Z, double x, double y, double z) {
     // Just in case the +1 goes over so it loops over to the other side
-    X = X % N;
-    Y = Y % N;
-    Z = Z % N;
+    X = ((X % N) + N) % N;
+    Y = ((Y % N) + N) % N;
+    Z = ((Z % N) + N) % N;
 
     vec3 g = gradients.at(((X * N * N) + (Y * N) + Z)); // Gradient at the given indices
     return g.x * x + g.y * y + g.z * z; // Dot product between the random gradient and the relative pos

@@ -16,7 +16,8 @@ class Perlin {
         double fade(double t);
         double lerp(double t, double a, double b);
     private:
-        int N;
+        int N; // True size of the grid (NxNxN)
+        // Ignore: int gradientSize; // True size of each dimension of gradients (cus I wanna cap it since it will use a lot of memory, also it tiles anyway)
         vector<vec3> gradients;
         double dotGradient(int X, int Y, int Z, double x, double y, double z);
 };
