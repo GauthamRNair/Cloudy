@@ -1,5 +1,6 @@
 #include "perlin.h"
 #include "utils.h"
+#include "consts.h"
 #include <cmath>
 
 using namespace std;
@@ -27,7 +28,7 @@ Perlin::Perlin() : Perlin(8) {
 }
 
 Perlin::Perlin(int N) {
-    if (N > 64) N = 64; // Clamp for memory sake (it tiles anyway so it sacrifices randomness for memory)
+    if (N > MAX_PERLIN_N) N = MAX_PERLIN_N; // Clamp for memory sake (it tiles anyway so it sacrifices randomness for memory)
     this->N = N;
 
     gradients.resize(N * N * N);

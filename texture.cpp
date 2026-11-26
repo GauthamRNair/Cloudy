@@ -36,21 +36,28 @@ double Texture::sample(double x, double y, double z, double coverage) {
     if(coverage <= 0.0) return 0; // Edge case to avoid any divide by zeroes js in case 
     if((z < LAYER_BOTTOM) || (z > LAYER_TOP)) return 0; // No clouds outside the cloud layer's range
 
+    // Scale the 3d world pos to noise scale pos
+    double sx = x*SHAPE_SCALE;
+    double sy = y*SHAPE_SCALE;
+    double sz = z*SHAPE_SCALE;
+
     // Combine all the layered worley into one
-    double newFBm = (0.625 * textureA2.noise(x, y, z)) + (0.25 * textureA3.noise(x, y, z)) + (0.125 * textureA4.noise(x, y, z));
+    double newFBm = (0.625 * textureA2.noise(sx, sy, sz)) + (0.25 * textureA3.noise(sx, sy, sz)) + (0.125 * textureA4.noise(sx, sy, sz));
     
-    double baseValue = textureA1.noise(x, y, z) + (1 - newFBm); // Add the fBm in a weird way
+    double baseValue = textureA1.noise(sx, sy, sz) + (1 - newFBm); // Add the fBm in a weird way
     baseValue /= (2 - newFBm); // Scale it back down to 0-1
 
     baseValue = (baseValue - (1 - coverage)) / (1 - (1 - coverage)); // Everything from (1 - coverage) to 1 will be mapped to 0 to 1 (higher coverage means more clouds)
     if (baseValue < 0) baseValue = 0; // clamp the negatives
     baseValue *= coverage; // For the leftover stuff, scale it to match the density of the coverage
 
+    if(baseValue <= 0.0) return 0.0;
+
     // Get a scaled up pos to pull from the noise (remember that it tiles infinitly)
     // So basically from the perspective to these positions the noise is act rly smal
-    double detailX = x * DETAIL_SCALE;
-    double detailY = y * DETAIL_SCALE;
-    double detailZ = z * DETAIL_SCALE;
+    double detailX = sx * DETAIL_SCALE;
+    double detailY = sy * DETAIL_SCALE;
+    double detailZ = sz * DETAIL_SCALE;
 
     // Pull and combine the detailed noise 
     double detailFBm = (0.625 * textureB1.noise(detailX*N, detailY*N, detailZ*N)) + 
