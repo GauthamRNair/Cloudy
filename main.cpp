@@ -23,7 +23,7 @@ bool setWallpaper(const string& file);
 int main() {
     srand(0);
 
-    vector<char> img(IMAGE_WIDTH * IMAGE_HEIGHT * 3); // Outdated: 3 chars for each pixel cus 1 char = 1 byte = 1 color channel
+    vector<char> img(IMAGE_WIDTH * IMAGE_HEIGHT * 3); // 3 chars for each pixel cus 1 char = 1 byte = 1 color channel
     Texture t(8);
     // LayeredWorley lw(8);
     RayMarcher rm(CAM_POS);
