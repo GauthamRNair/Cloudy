@@ -3,8 +3,8 @@
 
 #include "utils.h"
 
-const int IMAGE_WIDTH = 480;
-const int IMAGE_HEIGHT = 270;
+const int IMAGE_WIDTH = 1920;
+const int IMAGE_HEIGHT = 1080;
 
 const double SHAPE_SCALE = 0.05; // Scale factor between the cloud texture and the real 3d world
 

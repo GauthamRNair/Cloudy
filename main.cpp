@@ -5,15 +5,20 @@
 #include "texture.h"
 #include "raymarcher.h"
 
+// #include <windows.h>
+// #include <filesystem>
+
 #include <iostream>
 #include <vector>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 using namespace std;
 
 char floatToByte(double color);
+bool setWallpaper(const string& file);
 
 int main() {
     srand(0);
@@ -63,6 +68,11 @@ int main() {
 
     stbi_write_png("out8.png", IMAGE_WIDTH, IMAGE_HEIGHT, 3, img.data(), IMAGE_WIDTH * 3);
 
+    // Auto set wallpaper and report error if it fails
+    // if(!setWallpaper("out8.png")) {
+    //     cerr << "Couldn't set wallpaper!" << endl;
+    // }
+
     return 0;
 }
 
@@ -77,3 +87,14 @@ char floatToByte(double color) {
 
     return byte;
 }
+
+// bool setWallpaper(const string& file) {
+//     wstring path = filesystem::absolute(file).wstring();
+
+//     return SystemParametersInfoW(
+//         SPI_SETDESKWALLPAPER, // lets windows know that im changing the wallpaper
+//         0,
+//         (PVOID)path.c_str(), // the path to the png
+//         SPIF_UPDATEINIFILE | SPIF_SENDCHANGE // tells windows to update the wallpaper NOW
+//     );
+// }

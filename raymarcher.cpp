@@ -32,7 +32,7 @@ double RayMarcher::march(vec3 forward, Texture& density) {
     step.z *= STEP_SIZE;
 
     for(int i = 0; i < MAX_STEPS; i++) {
-        double j = rand() / ((double)RAND_MAX * 10) + 0.95; // add noise to avoid banding from the step size
+        double j = rand() / ((double)RAND_MAX * 10) + 0.9; // add noise to avoid banding from the step size
         currentPos.x += step.x * j;
         currentPos.y += step.y * j;
         currentPos.z += step.z * j;
